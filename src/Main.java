@@ -2,10 +2,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-    static Set<String> operations = new HashSet<>(Arrays.asList("+", "-", "/", "*"));
-    static Set<String> arabic_nums = new HashSet<>(Arrays.asList("1", "2", "3", "4", "5",
+    private final static Set<String> operations = new HashSet<>(Arrays.asList("+", "-", "/", "*"));
+    private final static Set<String> arabic_nums = new HashSet<>(Arrays.asList("1", "2", "3", "4", "5",
                                                                         "6", "7", "8", "9", "10"));
-    static Set<String> roman_nums = new HashSet<>(Arrays.asList("I", "II", "III", "IV", "V",
+    private final static Set<String> roman_nums = new HashSet<>(Arrays.asList("I", "II", "III", "IV", "V",
                                                                         "VI", "VII", "VIII", "IX", "X"));
 
     public static boolean isCorrectInput(String[] input) {
@@ -40,25 +40,25 @@ public class Main {
     public static String arabicToRoman(String val) {
         String[] roman = {"C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
         int[] arabic = {100, 90, 50, 40, 10, 9, 5, 4, 1};
-        String res = "";
+        StringBuilder res = new StringBuilder();
         int v = Integer.parseInt(val);
         while (v != 0) {
             for (int i = 0; i < roman.length; ++i) {
                 if (v / arabic[i] != 0) {
                     int amount = v / arabic[i];
                     for (int j = 0; j < amount; ++j) {
-                        res += roman[i];
+                        res.append(roman[i]);
                     }
                     v -= amount * arabic[i];
                 }
             }
         }
-        return res;
+        return res.toString();
     }
 
     public static String calcRoman(String lval, String rval, String op) throws IOException {
-        lval = romanToArabic(lval); rval = romanToArabic(rval);
-        String arabic_res = calcArabic(lval, rval, op);
+        String arabic_lval = romanToArabic(lval), arabic_rval = romanToArabic(rval);
+        String arabic_res = calcArabic(arabic_lval, arabic_rval, op);
         if (Integer.parseInt(arabic_res) < 1) {
             throw new IOException();
         }
